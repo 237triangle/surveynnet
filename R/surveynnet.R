@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
-surveynnet <- function(x,y, weight, size, maxit, strat, clust){
+surveynnet <- function(x,y, weight, size=3, maxit=20000, strat, clust){
   # get y scale and center for undoing later
   myscale <- max(y)-min(y)
   mycenter <- min(y)
@@ -21,7 +21,7 @@ surveynnet <- function(x,y, weight, size, maxit, strat, clust){
                Wh = NULL,
                clvar = clust,
                nest = FALSE,
-               y = y)
+               y = y.scale)
   # calculate deff.h
   df.deff <- left_join(df.deff, deff$`strata components`, by = 'stratum')
   deff.h <- df.deff$deff.w*df.deff$deff.c*df.deff$deff.s
@@ -33,8 +33,8 @@ surveynnet <- function(x,y, weight, size, maxit, strat, clust){
   nn.eff_adj_wt <- nnet(x.scale , y.scale, eff_adj_weight ,size = size, maxit = maxit)
   # collect and process results
   results <- data.frame(stratum = stratum)
-  results$survey_wt <- weight
   results$deff.h <- deff.h
+  results$survey_wt <- weight
   results$deff_wt <-eff_adj_weight
   #Predicted values
   results$target<- y
