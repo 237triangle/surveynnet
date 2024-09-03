@@ -4,11 +4,19 @@
 \alias{surveynnet}
 \title{Title}
 \usage{
-surveynnet(x, y)
+surveynnet(x, y, weight, size = 3, maxit = 20000, strat, clust)
 }
 \arguments{
-\item{y}{}
+\item{x}{blch}
+
+\item{y}{asdf}
+}
+\value{
+a dataframe
 }
 \description{
 Title
+}
+\examples{
+none
 }

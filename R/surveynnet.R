@@ -1,12 +1,12 @@
 #' Title
 #'
-#' @param x
-#' @param y
+#' @param x blch
+#' @param y asdf
 #'
-#' @return
+#' @return a dataframe
 #' @export
 #'
-#' @examples
+#' @examples none
 surveynnet <- function(x,y, weight, size=3, maxit=20000, strat, clust){
   # get y scale and center for undoing later
   myscale <- max(y)-min(y)
@@ -16,21 +16,21 @@ surveynnet <- function(x,y, weight, size=3, maxit=20000, strat, clust){
   y.scale <- (y - min(y)) / (max(y) - min(y))
   # calculate design effect
   df.deff <- data.frame(weight = weight, stratum = strat, clust = clust)
-  deff<-deffCR(w = weight,
+  deff<- PracTools::deffCR(w = weight,
                strvar = strat,
                Wh = NULL,
                clvar = clust,
                nest = FALSE,
                y = y.scale)
   # calculate deff.h
-  df.deff <- left_join(df.deff, deff$`strata components`, by = 'stratum')
+  df.deff <- dplyr::left_join(df.deff, deff$`strata components`, by = 'stratum')
   deff.h <- df.deff$deff.w*df.deff$deff.c*df.deff$deff.s
   # calculate adjusted weights
   eff_adj_weight <- weight / deff.h
   # run nnet without weights, with weights, with effect-adjusted weights
-  nn.no_wt <- nnet(x.scale, y.scale, size=size, maxit=maxit)
-  nn.wt <- nnet(x.scale, y.scale, weight, size=size, maxit=maxit)
-  nn.eff_adj_wt <- nnet(x.scale , y.scale, eff_adj_weight ,size = size, maxit = maxit)
+  nn.no_wt <- nnet::nnet(x.scale, y.scale, size=size, maxit=maxit)
+  nn.wt <- nnet::nnet(x.scale, y.scale, weight, size=size, maxit=maxit)
+  nn.eff_adj_wt <- nnet::nnet(x.scale , y.scale, eff_adj_weight ,size = size, maxit = maxit)
   # collect and process results
   results <- data.frame(stratum = stratum)
   results$deff.h <- deff.h
