@@ -7,9 +7,15 @@
 surveynnet(x, y, weight, size = 3, maxit = 20000, strat, clust)
 }
 \arguments{
-\item{x}{blch}
+\item{x}{matrix or data frame of predictors}
 
-\item{y}{asdf}
+\item{y}{vector of targets / response values}
+
+\item{weight}{weights for each sample}
+
+\item{size}{size for number of units in the hidden layer of nnets}
+
+\item{maxit}{maximum number of iterations, default 20000}
 }
 \value{
 a dataframe

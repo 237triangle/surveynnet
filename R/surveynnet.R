@@ -1,7 +1,12 @@
 #' Title
 #'
-#' @param x blch
-#' @param y asdf
+#' @param x matrix or data frame of predictors
+#' @param y vector of targets / response values
+#' @param weight weights for each sample
+#' @param size size for number of units in the hidden layer of nnets
+#' @param maxit maximum number of iterations, default 20000
+#'
+#'
 #'
 #' @return a dataframe
 #' @export
@@ -32,14 +37,14 @@ surveynnet <- function(x,y, weight, size=3, maxit=20000, strat, clust){
   nn.wt <- nnet::nnet(x.scale, y.scale, weight, size=size, maxit=maxit)
   nn.eff_adj_wt <- nnet::nnet(x.scale , y.scale, eff_adj_weight ,size = size, maxit = maxit)
   # collect and process results
-  results <- data.frame(stratum = stratum)
+  results <- data.frame(stratum = strat)
   results$deff.h <- deff.h
   results$survey_wt <- weight
   results$deff_wt <-eff_adj_weight
   #Predicted values
   results$target<- y
-  results$fitted <- nn.no_wt$fitted.values*scale + center
-  results$fitted_weighted <- nn.wt$fitted.values*scale + center
-  results$fitted_deff <- nn.eff_adj_wt$fitted.values*scale + center
+  results$fitted <- nn.no_wt$fitted.values*myscale + mycenter
+  results$fitted_weighted <- nn.wt$fitted.values*myscale + mycenter
+  results$fitted_deff <- nn.eff_adj_wt$fitted.values*myscale + mycenter
   return(results)
 }
