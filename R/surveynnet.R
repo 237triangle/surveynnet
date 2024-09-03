@@ -48,3 +48,35 @@ surveynnet <- function(x,y, weight, size=3, maxit=20000, strat, clust){
   results$fitted_deff <- nn.eff_adj_wt$fitted.values*myscale + mycenter
   return(results)
 }
+
+
+#
+#
+#
+# # note y must be drawn AFTER adding variation, which means after centering/scaling
+# mydata <- read.csv("~/Downloads/body_fat_pct.csv")
+# y <- mydata$pct_body_fat
+# #y <- (mydata$pct_body_fat)*scale + center
+# x <- mydata[,c("Weight_kg", "Height_cm", "Age")]
+# weight <- mydata$survey_wt
+# strat <- mydata$stratum
+# clust <- mydata$cluster
+#
+# #y <- range01(y)
+# y[strat==1] <- y[strat==1] + 30*0.00015*rnorm(sum(strat==1))
+# y[strat==2] <- y[strat==2] + 30*0.15*rnorm(sum(strat==2))
+#
+# myout <- surveynnet(x,y,weight = weight, strat = strat, clust=clust)
+# myout
+#
+#
+# # add a note say8ing if you get the original strata etc just use that
+#
+# # if you only have the pseudo strata % cluster, use that in the function but be awware that results are an bound/ estimate for design effect
+#
+# # if you only replicate weights, sorry!
+#
+# # for the help file,
+#
+# # survey nnet can consider/incorporate the cluster and strata in survey data sets during the training networks,
+#
