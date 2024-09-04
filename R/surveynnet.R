@@ -12,21 +12,26 @@
 #' @export
 #'
 #' @examples none
-surveynnet <- function(x,y, weight, size=3, maxit=20000, strat, clust){
+surveynnet <- function(x,y, weight, strat, clust, size=3, maxit=20000, ...){
+  adnl.args <- list(...)
   # get y scale and center for undoing later
-  myscale <- max(y)-min(y)
-  mycenter <- min(y)
+  # note for later: should put in checks, eg that scale.y != 0 etc...
+  # note for later: should I have default for weight, strat and clust? eg ==1...
+  # note for later: need to remove any missing values for y and df right?
+  scale.y <- max(y)-min(y)
+  center.y <- min(y)
   # scale x and y to 0-1
   x.scale <- apply(x, 2, function(x2) (x2 - min(x2))/(max(x2) - min(x2)))
-  y.scale <- (y - min(y)) / (max(y) - min(y))
+  y.scale <- (y - center.y) / scale.y
   # calculate design effect
   df.deff <- data.frame(weight = weight, stratum = strat, clust = clust)
   deff<- PracTools::deffCR(w = weight,
                strvar = strat,
-               Wh = NULL,
+               #Wh = NULL,
                clvar = clust,
-               nest = FALSE,
-               y = y.scale)
+               #nest = FALSE,
+               y = y.scale,
+               adnl.args)
   # calculate deff.h
   df.deff <- dplyr::left_join(df.deff, deff$`strata components`, by = 'stratum')
   deff.h <- df.deff$deff.w*df.deff$deff.c*df.deff$deff.s
@@ -43,9 +48,9 @@ surveynnet <- function(x,y, weight, size=3, maxit=20000, strat, clust){
   results$deff_wt <-eff_adj_weight
   #Predicted values
   results$target<- y
-  results$fitted <- nn.no_wt$fitted.values*myscale + mycenter
-  results$fitted_weighted <- nn.wt$fitted.values*myscale + mycenter
-  results$fitted_deff <- nn.eff_adj_wt$fitted.values*myscale + mycenter
+  results$fitted <- nn.no_wt$fitted.values*scale.y + center.y
+  results$fitted_weighted <- nn.wt$fitted.values*scale.y + center.y
+  results$fitted_deff <- nn.eff_adj_wt$fitted.values*scale.y + center.y
   return(results)
 }
 
