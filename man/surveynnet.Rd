@@ -4,7 +4,7 @@
 \alias{surveynnet}
 \title{Title}
 \usage{
-surveynnet(x, y, weight, size = 3, maxit = 20000, strat, clust)
+surveynnet(x, y, weight, strat, clust, ...)
 }
 \arguments{
 \item{x}{matrix or data frame of predictors}

@@ -12,8 +12,8 @@
 #' @export
 #'
 #' @examples none
-surveynnet <- function(x,y, weight, strat, clust, size=3, maxit=20000, ...){
-  adnl.args <- list(...)
+surveynnet <- function(x,y, weight, strat, clust, ...){
+  args <- list(...)
   # get y scale and center for undoing later
   # note for later: should put in checks, eg that scale.y != 0 etc...
   # note for later: should I have default for weight, strat and clust? eg ==1...
@@ -25,22 +25,42 @@ surveynnet <- function(x,y, weight, strat, clust, size=3, maxit=20000, ...){
   y.scale <- (y - center.y) / scale.y
   # calculate design effect
   df.deff <- data.frame(weight = weight, stratum = strat, clust = clust)
-  deff<- PracTools::deffCR(w = weight,
-               strvar = strat,
-               #Wh = NULL,
-               clvar = clust,
-               #nest = FALSE,
-               y = y.scale,
-               adnl.args)
+  # collect args for deffCR
+  args.deffCR <- args[
+    intersect(names(args), names(formals(PracTools::deffCR)))
+  ]
+  # the below-vars are needed and hardcoded
+  args.deffCR$strvar = strat
+  args.deffCR$y = y.scale
+  args.deffCR$clvar = clust
+  args.deffCR$w = weight
+
+  deff <- do.call(PracTools::deffCR, args.deffCR)
   # calculate deff.h
   df.deff <- dplyr::left_join(df.deff, deff$`strata components`, by = 'stratum')
   deff.h <- df.deff$deff.w*df.deff$deff.c*df.deff$deff.s
   # calculate adjusted weights
   eff_adj_weight <- weight / deff.h
+  # collect args for all 3 nnet calls
+  args.nnet <- args[
+    intersect(names(args), names(formals(nnet::nnet.default)))
+  ]
+  args.nnet$x <- x.scale
+  args.nnet$y <- y.scale
+  if(!"size" %in% names(args.nnet)) {
+    args.nnet$size = 3
+  }
+  if(!"maxit" %in% names(args.nnet)) {
+    args.nnet$maxit = 2000
+  }
   # run nnet without weights, with weights, with effect-adjusted weights
-  nn.no_wt <- nnet::nnet(x.scale, y.scale, size=size, maxit=maxit)
-  nn.wt <- nnet::nnet(x.scale, y.scale, weight, size=size, maxit=maxit)
-  nn.eff_adj_wt <- nnet::nnet(x.scale , y.scale, eff_adj_weight ,size = size, maxit = maxit)
+  nn.no_wt <- do.call(nnet::nnet.default, args.nnet)
+  # add weights
+  args.nnet$weights = weight
+  nn.wt <- do.call(nnet::nnet.default, args.nnet)
+  # modify weights with new method
+  args.nnet$weights = eff_adj_weight
+  nn.eff_adj_wt <- do.call(nnet::nnet.default, args.nnet)
   # collect and process results
   results <- data.frame(stratum = strat)
   results$deff.h <- deff.h
