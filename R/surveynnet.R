@@ -10,12 +10,18 @@
 #' the default here is set to 3 layers ("size" parameter) and maximum iterations ("maxit" parameter) is
 #' set to 2000.
 #'
+#' @return A dataframe containing the results of the neural net, using:
+#' * no weights
+#' * the user-inputted weights
+#' * the new method that adjusts the weights by using a design effect incorporating cluster and strata
 #'
+#' @references Cruz-Cano, Cohen etc etc
 #'
-#' @return a dataframe
 #' @export
 #'
-#' @examples none
+#' @examples
+#'
+#' small example
 surveynnet <- function(x,y, weight, strat, clust, ...){
   args <- list(...)
   # get y scale and center for undoing later

@@ -23,11 +23,20 @@ the default here is set to 3 layers ("size" parameter) and maximum iterations ("
 set to 2000.}
 }
 \value{
-a dataframe
+A dataframe containing the results of the neural net, using:
+\itemize{
+\item no weights
+\item the user-inputted weights
+\item the new method that adjusts the weights by using a design effect incorporating cluster and strata
+}
 }
 \description{
 Title
 }
 \examples{
-none
+
+small example
+}
+\references{
+Cruz-Cano, Cohen etc etc
 }
