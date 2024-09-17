@@ -1,10 +1,14 @@
 #' Title
 #'
-#' @param x matrix or data frame of predictors
-#' @param y vector of targets / response values
-#' @param weight weights for each sample
-#' @param size size for number of units in the hidden layer of nnets
-#' @param maxit maximum number of iterations, default 20000
+#' @param x Matrix or data frame of predictors. Must not contain any missing values.
+#' @param y Vector of targets / response values. Must not contain any missing values.
+#' @param weight The weights for each sample.
+#' @param strat The stratum for each sample.
+#' @param clust The cluster for each sample.
+#' @param ... Additional arguments to be passed into `PracTools::deffCR` or `nnet::nnet`. See
+#' documentation of those packages and functions for more details. Note that for the neural net (`nnet`),
+#' the default here is set to 3 layers ("size" parameter) and maximum iterations ("maxit" parameter) is
+#' set to 2000.
 #'
 #'
 #'

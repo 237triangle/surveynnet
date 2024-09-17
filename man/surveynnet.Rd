@@ -7,15 +7,20 @@
 surveynnet(x, y, weight, strat, clust, ...)
 }
 \arguments{
-\item{x}{matrix or data frame of predictors}
+\item{x}{Matrix or data frame of predictors. Must not contain any missing values.}
 
-\item{y}{vector of targets / response values}
+\item{y}{Vector of targets / response values. Must not contain any missing values.}
 
-\item{weight}{weights for each sample}
+\item{weight}{The weights for each sample.}
 
-\item{size}{size for number of units in the hidden layer of nnets}
+\item{strat}{The stratum for each sample.}
 
-\item{maxit}{maximum number of iterations, default 20000}
+\item{clust}{The cluster for each sample.}
+
+\item{...}{Additional arguments to be passed into \code{PracTools::deffCR} or \code{nnet::nnet}. See
+documentation of those packages and functions for more details. Note that for the neural net (\code{nnet}),
+the default here is set to 3 layers ("size" parameter) and maximum iterations ("maxit" parameter) is
+set to 2000.}
 }
 \value{
 a dataframe
