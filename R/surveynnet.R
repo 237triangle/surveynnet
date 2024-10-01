@@ -1,5 +1,12 @@
 #' Neural Net for Complex Survey Data
 #'
+#' @description
+#' The surveynnet package extends the functionality of nnet (Venables and Ripley, 2002),
+#' which already supports survey weights, by enabling it to handle clustered and stratified data.
+#' It achieves this by incorporating design effects through the use of effective sample sizes in
+#' the calculations, performed by the package described in Valliant et al. (2023), by following
+#' the methods outlined by Chen and Rust (2017) and Valliant et al. (2018).
+#'
 #' @param x Matrix or data frame of predictors. Must not contain any missing values.
 #' @param y Vector of targets / response values. Must not contain any missing values.
 #' @param weight The weights for each sample.
@@ -15,13 +22,21 @@
 #' * the user-inputted weights
 #' * the new method that adjusts the weights by using a design effect incorporating cluster and strata
 #'
-#' @references Cruz-Cano, Cohen etc etc
+#' @references * Venables WN, Ripley BD (2002). Modern Applied Statistics with S, Fourth edition.
+#' Springer, New York. ISBN 0-387-95457-0, https://www.stats.ox.ac.uk/pub/MASS4/.
+#' * Chen, S., and K. F. Rust. 2017."An Extension of Kish’s Formula for Design Effects to
+#' Two- and Three-Stage Designs with Stratification.”, Journal of Survey Statistics and
+#' Methodology,5 (2): 111–30.
+#' * Valliant, R., J. A. Dever, and F. Kreuter. 2018. Practical Tools for Designing
+#' and Weighting Survey Samples .2nd ed. New York: Springer-Verlag.
+#' * Valliant, R., J. A. Dever, and F. Kreuter. 2023. PracTools: Tools for Designing
+#' and Weighting Survey Samples, Version 1.4 . https://CRAN.R-project.org/package=PracTools
 #'
 #' @export
 #'
 #' @examples
 #'
-#' body_fat <- read.csv("~/Downloads/body_fat_pct.csv")
+#' # short example with body fat dataset
 #' y <- body_fat$pct_body_fat
 #' #y <- (body_fat$pct_body_fat)*scale + center
 #' x <- body_fat[,c("Weight_kg", "Height_cm", "Age")]
@@ -76,6 +91,7 @@ surveynnet <- function(x,y, weight, strat, clust, ...){
   if(!"maxit" %in% names(args.nnet)) {
     args.nnet$maxit = 2000
   }
+  # NOTE: trying to suppress nnet iter output using `invisible`
   # run nnet without weights, with weights, with effect-adjusted weights
   nn.no_wt <- do.call(nnet::nnet.default, args.nnet)
   # add weights
@@ -96,35 +112,3 @@ surveynnet <- function(x,y, weight, strat, clust, ...){
   results$fitted_deff <- nn.eff_adj_wt$fitted.values*scale.y + center.y
   return(results)
 }
-
-
-#
-#
-#
-# # note y must be drawn AFTER adding variation, which means after centering/scaling
-# mydata <- read.csv("~/Downloads/body_fat_pct.csv")
-# y <- mydata$pct_body_fat
-# #y <- (mydata$pct_body_fat)*scale + center
-# x <- mydata[,c("Weight_kg", "Height_cm", "Age")]
-# weight <- mydata$survey_wt
-# strat <- mydata$stratum
-# clust <- mydata$cluster
-#
-# #y <- range01(y)
-# y[strat==1] <- y[strat==1] + 30*0.00015*rnorm(sum(strat==1))
-# y[strat==2] <- y[strat==2] + 30*0.15*rnorm(sum(strat==2))
-#
-# myout <- surveynnet(x,y,weight = weight, strat = strat, clust=clust)
-# myout
-#
-#
-# # add a note say8ing if you get the original strata etc just use that
-#
-# # if you only have the pseudo strata % cluster, use that in the function but be awware that results are an bound/ estimate for design effect
-#
-# # if you only replicate weights, sorry!
-#
-# # for the help file,
-#
-# # survey nnet can consider/incorporate the cluster and strata in survey data sets during the training networks,
-#

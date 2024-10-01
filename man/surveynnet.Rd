@@ -31,11 +31,15 @@ A dataframe containing the results of the neural net, using:
 }
 }
 \description{
-Neural Net for Complex Survey Data
+The surveynnet package extends the functionality of nnet (Venables and Ripley, 2002),
+which already supports survey weights, by enabling it to handle clustered and stratified data.
+It achieves this by incorporating design effects through the use of effective sample sizes in
+the calculations, performed by the package described in Valliant et al. (2023), by following
+the methods outlined by Chen and Rust (2017) and Valliant et al. (2018).
 }
 \examples{
 
-body_fat <- read.csv("~/Downloads/body_fat_pct.csv")
+# short example with body fat dataset
 y <- body_fat$pct_body_fat
 #y <- (body_fat$pct_body_fat)*scale + center
 x <- body_fat[,c("Weight_kg", "Height_cm", "Age")]
@@ -48,5 +52,15 @@ myout <- surveynnet(x,y,weight = weight, strat = strat, clust=clust)
 myout
 }
 \references{
-Cruz-Cano, Cohen etc etc
+\itemize{
+\item Venables WN, Ripley BD (2002). Modern Applied Statistics with S, Fourth edition.
+Springer, New York. ISBN 0-387-95457-0, https://www.stats.ox.ac.uk/pub/MASS4/.
+\item Chen, S., and K. F. Rust. 2017."An Extension of Kish’s Formula for Design Effects to
+Two- and Three-Stage Designs with Stratification.”, Journal of Survey Statistics and
+Methodology,5 (2): 111–30.
+\item Valliant, R., J. A. Dever, and F. Kreuter. 2018. Practical Tools for Designing
+and Weighting Survey Samples .2nd ed. New York: Springer-Verlag.
+\item Valliant, R., J. A. Dever, and F. Kreuter. 2023. PracTools: Tools for Designing
+and Weighting Survey Samples, Version 1.4 . https://CRAN.R-project.org/package=PracTools
+}
 }
