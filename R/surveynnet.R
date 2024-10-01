@@ -83,6 +83,7 @@ surveynnet <- function(x,y, weight, strat, clust, ...){
   args.nnet <- args[
     intersect(names(args), names(formals(nnet::nnet.default)))
   ]
+  args.nnet$trace <- FALSE # adding to suppress iter output
   args.nnet$x <- x.scale
   args.nnet$y <- y.scale
   if(!"size" %in% names(args.nnet)) {
