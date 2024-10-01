@@ -1,4 +1,4 @@
-#' Title
+#' Neural Net for Complex Survey Data
 #'
 #' @param x Matrix or data frame of predictors. Must not contain any missing values.
 #' @param y Vector of targets / response values. Must not contain any missing values.
@@ -21,7 +21,20 @@
 #'
 #' @examples
 #'
-#' small example
+#' body_fat <- read.csv("~/Downloads/body_fat_pct.csv")
+#' y <- body_fat$pct_body_fat
+#' #y <- (body_fat$pct_body_fat)*scale + center
+#' x <- body_fat[,c("Weight_kg", "Height_cm", "Age")]
+#' weight <- body_fat$survey_wt
+#' strat <- body_fat$stratum
+#' clust <- body_fat$cluster
+
+#y <- range01(y)
+#' y[strat==1] <- y[strat==1] + 30*0.00015*rnorm(sum(strat==1))
+#' y[strat==2] <- y[strat==2] + 30*0.15*rnorm(sum(strat==2))
+
+#' myout <- surveynnet(x,y,weight = weight, strat = strat, clust=clust)
+#' myout
 surveynnet <- function(x,y, weight, strat, clust, ...){
   args <- list(...)
   # get y scale and center for undoing later

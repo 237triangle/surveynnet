@@ -2,7 +2,7 @@
 % Please edit documentation in R/surveynnet.R
 \name{surveynnet}
 \alias{surveynnet}
-\title{Title}
+\title{Neural Net for Complex Survey Data}
 \usage{
 surveynnet(x, y, weight, strat, clust, ...)
 }
@@ -31,11 +31,21 @@ A dataframe containing the results of the neural net, using:
 }
 }
 \description{
-Title
+Neural Net for Complex Survey Data
 }
 \examples{
 
-small example
+body_fat <- read.csv("~/Downloads/body_fat_pct.csv")
+y <- body_fat$pct_body_fat
+#y <- (body_fat$pct_body_fat)*scale + center
+x <- body_fat[,c("Weight_kg", "Height_cm", "Age")]
+weight <- body_fat$survey_wt
+strat <- body_fat$stratum
+clust <- body_fat$cluster
+y[strat==1] <- y[strat==1] + 30*0.00015*rnorm(sum(strat==1))
+y[strat==2] <- y[strat==2] + 30*0.15*rnorm(sum(strat==2))
+myout <- surveynnet(x,y,weight = weight, strat = strat, clust=clust)
+myout
 }
 \references{
 Cruz-Cano, Cohen etc etc
