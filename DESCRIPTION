@@ -19,7 +19,8 @@ BugReports: https://github.com/237triangle/surveynnet/issues
 Imports: 
     dplyr,
     nnet,
-    PracTools
+    PracTools,
+    survival
 Depends: 
     R (>= 2.10)
 LazyData: true

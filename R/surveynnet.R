@@ -38,7 +38,6 @@
 #'
 #' # short example with body fat dataset
 #' y <- body_fat$pct_body_fat
-#' #y <- (body_fat$pct_body_fat)*scale + center
 #' x <- body_fat[,c("Weight_kg", "Height_cm", "Age")]
 #' weight <- body_fat$survey_wt
 #' strat <- body_fat$stratum
@@ -49,9 +48,9 @@
 #' myout
 surveynnet <- function(x,y, weight, strat, clust, ...){
   args <- list(...)
+  # a dummy arg for survival
+  zz <- survival::Surv(1,1)
   # get y scale and center for undoing later
-  # note for later: should put in checks, eg that scale.y != 0 etc...
-  # note for later: should I have default for weight, strat and clust? eg ==1...
   # note for later: need to remove any missing values for y and df right?
   scale.y <- max(y)-min(y)
   center.y <- min(y)
@@ -89,7 +88,6 @@ surveynnet <- function(x,y, weight, strat, clust, ...){
   if(!"maxit" %in% names(args.nnet)) {
     args.nnet$maxit = 2000
   }
-  # NOTE: trying to suppress nnet iter output using `invisible`
   # run nnet without weights, with weights, with effect-adjusted weights
   nn.no_wt <- do.call(nnet::nnet.default, args.nnet)
   # add weights

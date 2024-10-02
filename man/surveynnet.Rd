@@ -41,7 +41,6 @@ the methods outlined by Chen and Rust (2017) and Valliant et al. (2018).
 
 # short example with body fat dataset
 y <- body_fat$pct_body_fat
-#y <- (body_fat$pct_body_fat)*scale + center
 x <- body_fat[,c("Weight_kg", "Height_cm", "Age")]
 weight <- body_fat$survey_wt
 strat <- body_fat$stratum
