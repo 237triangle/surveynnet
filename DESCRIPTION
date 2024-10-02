@@ -4,7 +4,12 @@ Version: 0.0.0.9000
 Authors@R: 
     person("Aaron", "Last", , "first.last@example.com", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: The surveynnet package extends the functionality of nnet (Venables 
+  and Ripley, 2002), which already supports survey weights, by enabling it to handle 
+  clustered and stratified data. It achieves this by incorporating design effects 
+  through the use of effective sample sizes in the calculations, performed by the 
+  package described in Valliant et al. (2023), by following the methods outlined by 
+  Chen and Rust (2017) and Valliant et al. (2018).
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -14,8 +19,7 @@ BugReports: https://github.com/237triangle/surveynnet/issues
 Imports: 
     dplyr,
     nnet,
-    PracTools,
-    survey
+    PracTools
 Depends: 
     R (>= 2.10)
 LazyData: true

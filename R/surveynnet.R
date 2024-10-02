@@ -43,11 +43,8 @@
 #' weight <- body_fat$survey_wt
 #' strat <- body_fat$stratum
 #' clust <- body_fat$cluster
-
-#y <- range01(y)
 #' y[strat==1] <- y[strat==1] + 30*0.00015*rnorm(sum(strat==1))
 #' y[strat==2] <- y[strat==2] + 30*0.15*rnorm(sum(strat==2))
-
 #' myout <- surveynnet(x,y,weight = weight, strat = strat, clust=clust)
 #' myout
 surveynnet <- function(x,y, weight, strat, clust, ...){
