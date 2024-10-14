@@ -107,5 +107,10 @@ surveynnet <- function(x,y, weight, strat, clust, ...){
   results$fitted_weighted <- nn.wt$fitted.values*scale.y + center.y
   results$fitted_deff <- nn.eff_adj_wt$fitted.values*scale.y + center.y
   results$fitted_deff_resid <- results$target - results$fitted_deff
-  return(results)
+  return(
+    list(
+      results = results,
+      nnet.surv = nn.eff_adj_wt
+    )
+  )
 }
