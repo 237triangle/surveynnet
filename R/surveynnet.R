@@ -48,10 +48,6 @@
 #' y[strat==2] <- y[strat==2] + 30*0.15*rnorm(sum(strat==2))
 #' myout <- surveynnet(x,y,weight = weight, strat = strat, clust=clust)
 #' myout
-#' # If desired, can predict outcomes with new data, by pulling the fitted nnet
-#' # object into a predict method via `nnet` package:
-#' newdat = 2*x+rnorm(dim(x)[1])
-#' predict(myout$nnet.surv, newdata = newdat)
 surveynnet <- function(x,y, weight, strat, clust, comp_cases = F, ...){
   # check dimensionality agreement
   stopifnot(
@@ -126,10 +122,12 @@ surveynnet <- function(x,y, weight, strat, clust, comp_cases = F, ...){
   results$fitted_weighted <- nn.wt$fitted.values*scale.y + center.y
   results$fitted_deff <- nn.eff_adj_wt$fitted.values*scale.y + center.y
   results$fitted_deff_resid <- results$target - results$fitted_deff
+  out.results <- list(
+    results = results,
+    nnet.surv = nn.eff_adj_wt
+  )
+  class(out.results) <- c("surveynnet", class(out.results))
   return(
-    list(
-      results = results,
-      nnet.surv = nn.eff_adj_wt
-    )
+    out.results
   )
 }
