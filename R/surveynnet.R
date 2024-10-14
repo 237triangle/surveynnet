@@ -12,6 +12,8 @@
 #' @param weight The weights for each sample.
 #' @param strat The stratum for each sample.
 #' @param clust The cluster for each sample.
+#' @param comp_cases If TRUE, filter out missing values from x, y, weight, strat, and clust. Default FALSE.
+#'  Note that in either case, the dimensions of all data mentioned above must agree.
 #' @param ... Additional arguments to be passed into `PracTools::deffCR` or `nnet::nnet`. See
 #' documentation of those packages and functions for more details. Note that for the neural net (`nnet`),
 #' the default here is set to 3 layers ("size" parameter) and maximum iterations ("maxit" parameter) is
@@ -46,7 +48,20 @@
 #' y[strat==2] <- y[strat==2] + 30*0.15*rnorm(sum(strat==2))
 #' myout <- surveynnet(x,y,weight = weight, strat = strat, clust=clust)
 #' myout
-surveynnet <- function(x,y, weight, strat, clust, ...){
+surveynnet <- function(x,y, weight, strat, clust, comp_cases = F, ...){
+  # check dimensionality agreement
+  stopifnot(
+    "x, y, weight, strat and clust must have same lengths/dimensions" =
+      dim(x)[1] == length(y) && length(y) == length(weight) &&
+      length(weight) == length(strat) && length(strat) == length(clust)
+  )
+  # filter NA's if desired
+  if(comp_cases){
+    dftemp = cbind(weight, strat, clust, y, x)
+    dftemp = dftemp[stats::complete.cases(dftemp), ]
+    weight = dftemp[,1]; strat = dftemp[,2]; clust = dftemp[,3]
+    y = dftemp[,4]; x = dftemp[,-(1:4)]
+  }
   args <- list(...)
   # a dummy arg for survival
   zz <- survival::Surv(1,1)

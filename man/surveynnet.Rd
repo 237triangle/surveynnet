@@ -4,7 +4,7 @@
 \alias{surveynnet}
 \title{Neural Net for Complex Survey Data}
 \usage{
-surveynnet(x, y, weight, strat, clust, ...)
+surveynnet(x, y, weight, strat, clust, comp_cases = F, ...)
 }
 \arguments{
 \item{x}{Matrix or data frame of predictors. Must not contain any missing values.}
@@ -16,6 +16,9 @@ surveynnet(x, y, weight, strat, clust, ...)
 \item{strat}{The stratum for each sample.}
 
 \item{clust}{The cluster for each sample.}
+
+\item{comp_cases}{If TRUE, filter out missing values from x, y, weight, strat, and clust. Default FALSE.
+Note that in either case, the dimensions of all data mentioned above must agree.}
 
 \item{...}{Additional arguments to be passed into \code{PracTools::deffCR} or \code{nnet::nnet}. See
 documentation of those packages and functions for more details. Note that for the neural net (\code{nnet}),
