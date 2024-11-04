@@ -17,3 +17,23 @@
 #'
 #' }
 "body_fat"
+
+#' Nhanes example
+#'
+#'
+#'
+#' @format ## `nhanes.demo`
+#' A data frame with 6230 rows and 9 columns:
+#' \describe{
+#'   \item{SEQN}{Respondent sequence number}
+#'   \item{SDMVPSU}{Masked variance pseudo-PSU}
+#'   \item{SDMVSTRA}{Masked variance pseudo-stratum}
+#'   \item{WTMEC2YR}{Full sample 2 year MEC exam weight}
+#'   \item{BMXHT}{Standing height (cm)}
+#'   \item{BMXWT}{Weight (kg)}
+#'   \item{BMXBMI}{Body maxx index (kg/m**2)}
+#'   \item{BPXSY1}{Systolic blood pressure}
+#'   \item{BPXDI1}{Diastolic blood pressure}
+#'
+#' }
+"nhanes.demo"

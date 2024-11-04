@@ -52,6 +52,20 @@ y[strat==1] <- y[strat==1] + 30*0.00015*rnorm(sum(strat==1))
 y[strat==2] <- y[strat==2] + 30*0.15*rnorm(sum(strat==2))
 myout <- surveynnet(x,y,weight = weight, strat = strat, clust=clust)
 myout
+
+# NHANES example
+# Predicting Diastolic BP from BMI, Systolic BP and Height
+# PLEASE NOTE: for this example, pass "nest=TRUE" into the
+# "..." parameters of the main function `surveynnet`
+
+x <- nhanes.demo[,c("BMXBMI", "BPXSY1", "BMXHT")]
+weight <- nhanes.demo$WTMEC2YR
+strat <- nhanes.demo$SDMVSTRA
+clust <- nhanes.demo$SDMVPSU
+y <- nhanes.demo$BPXDI1
+myout <- surveynnet(x,y,weight = weight, strat = strat, clust=clust, nest=TRUE)
+head(myout, 15)
+
 }
 \references{
 \itemize{
