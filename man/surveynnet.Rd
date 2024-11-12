@@ -64,7 +64,7 @@ strat <- nhanes.demo$SDMVSTRA
 clust <- nhanes.demo$SDMVPSU
 y <- nhanes.demo$BPXDI1
 myout <- surveynnet(x,y,weight = weight, strat = strat, clust=clust, nest=TRUE)
-head(myout, 15)
+head(myout$results, 15)
 
 }
 \references{
