@@ -1,9 +1,12 @@
 Package: surveynnet
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
-Authors@R: 
-    person("Aaron", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+Authors@R: c(
+    person("Aaron", "Cohen", , "cohenaa@iu.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "0009-0003-1971-1072")),
+    person("Raul", "Cruz-Cano", , "raulcruz@iu.edu", role = "aut",
+           comment = c(ORCID = "0000-0001-7715-1198"))
+           )
 Description: The surveynnet package extends the functionality of nnet (Venables 
   and Ripley, 2002), which already supports survey weights, by enabling it to handle 
   clustered and stratified data. It achieves this by incorporating design effects 
