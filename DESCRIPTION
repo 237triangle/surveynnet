@@ -1,6 +1,6 @@
 Package: surveynnet
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: Neural Network for Complex Survey Data
+Version: 1.0.0
 Authors@R: c(
     person("Aaron", "Cohen", , "cohenaa@iu.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0003-1971-1072")),
