@@ -26,11 +26,13 @@ the default here is set to 3 layers ("size" parameter) and maximum iterations ("
 set to 2000.}
 }
 \value{
-A dataframe containing the results of the neural net, using:
+A list containing two objects:
 \itemize{
-\item no weights
-\item the user-inputted weights
-\item the new method that adjusts the weights by using a design effect incorporating cluster and strata
+\item A dataframe with the fitted values of the neural nets, using:
+no weights ("fitted"), the user-inputted weights ("fitted_weighted"), and the new method that adjusts the weights by using a design
+effect incorporating cluster and strata ("fitted_deff").
+\item The fitted neural network object (from \code{nnet}), using the novel design-effect based weights; this
+can be used to predict the outcomes for new observations.
 }
 }
 \description{

@@ -19,10 +19,12 @@
 #' the default here is set to 3 layers ("size" parameter) and maximum iterations ("maxit" parameter) is
 #' set to 2000.
 #'
-#' @return A dataframe containing the results of the neural net, using:
-#' * no weights
-#' * the user-inputted weights
-#' * the new method that adjusts the weights by using a design effect incorporating cluster and strata
+#' @return A list containing two objects:
+#' * A dataframe with the fitted values of the neural nets, using:
+#'  no weights ("fitted"), the user-inputted weights ("fitted_weighted"), and the new method that adjusts the weights by using a design
+#' effect incorporating cluster and strata ("fitted_deff").
+#' * The fitted neural network object (from `nnet`), using the novel design-effect based weights; this
+#' can be used to predict the outcomes for new observations.
 #'
 #' @references * Venables WN, Ripley BD (2002). Modern Applied Statistics with S, Fourth edition.
 #' Springer, New York. ISBN 0-387-95457-0, https://www.stats.ox.ac.uk/pub/MASS4/.
